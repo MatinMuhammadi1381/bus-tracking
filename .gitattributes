@@ -1,2 +1,2 @@
-# Include database migrations in GitHub's repository language breakdown.
-apps/api/prisma/migrations/** linguist-generated=false
+# Keep the database migration source visible in GitHub's language breakdown.
+apps/api/prisma/migrations/**/*.sql linguist-generated=false linguist-language=SQL

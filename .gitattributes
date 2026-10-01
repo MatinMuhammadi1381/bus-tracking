@@ -1,0 +1,2 @@
+# Include database migrations in GitHub's repository language breakdown.
+apps/api/prisma/migrations/** linguist-generated=false

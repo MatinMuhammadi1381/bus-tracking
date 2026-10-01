@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@bus-tracking/shared-types": ["packages/shared-types/src"],
+      "@bus-tracking/validation": ["packages/validation/src"],
+      "@bus-tracking/api-contracts": ["packages/api-contracts/src"],
+      "@bus-tracking/shared-utils": ["packages/shared-utils/src"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "build", ".turbo"]
+}

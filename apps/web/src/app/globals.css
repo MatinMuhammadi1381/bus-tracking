@@ -1,0 +1,321 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-300.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-400.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-500.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-600.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-700.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-800.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-900.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+
+:root {
+  --font-vazirmatn: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  --foreground: #e6edf7;
+  --background: #08111f;
+  --brand: #0b7285;
+  --brand-dark: #075985;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-vazirmatn);
+  direction: rtl;
+  scrollbar-gutter: stable;
+}
+
+button,
+input,
+select,
+textarea,
+option {
+  font-family: inherit;
+}
+
+/* Shared dark operations theme for every route in the 3004 web app. */
+body {
+  background:
+    radial-gradient(circle at 90% -10%, rgba(14, 165, 233, 0.18), transparent 32rem),
+    radial-gradient(circle at 5% 110%, rgba(8, 145, 178, 0.12), transparent 28rem), #08111f;
+}
+
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+.bg-slate-50,
+.bg-gray-50,
+.bg-gray-100 {
+  background-color: #0b1729 !important;
+}
+
+.bg-white,
+.bg-white\/85,
+.bg-white\/90 {
+  background-color: rgba(17, 31, 51, 0.94) !important;
+}
+
+.text-slate-900,
+.text-gray-900,
+.text-gray-800 {
+  color: #f1f5f9 !important;
+}
+
+.text-slate-700,
+.text-slate-600,
+.text-gray-700,
+.text-gray-600 {
+  color: #c3d0df !important;
+}
+
+.text-slate-500,
+.text-gray-500,
+.text-gray-400 {
+  color: #91a4b8 !important;
+}
+
+.border-slate-200,
+.border-slate-300,
+.border-gray-200,
+.border-gray-300,
+.border-white\/80 {
+  border-color: rgba(148, 163, 184, 0.2) !important;
+}
+
+input,
+select,
+textarea {
+  color: #e6edf7;
+  background-color: #0f2035 !important;
+  border-color: rgba(148, 163, 184, 0.25) !important;
+}
+
+input::placeholder {
+  color: #71849a;
+}
+
+.divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(148, 163, 184, 0.14) !important;
+}
+
+.hover\:bg-slate-50:hover,
+.hover\:bg-slate-100:hover {
+  background-color: #172b45 !important;
+}
+
+/* Keep status and action surfaces vivid and consistent across every route. */
+.bg-sky-50 {
+  background-color: #e0f2fe !important;
+}
+
+.bg-emerald-50 {
+  background-color: #d1fae5 !important;
+}
+
+.bg-violet-50 {
+  background-color: #ede9fe !important;
+}
+
+.bg-amber-50 {
+  background-color: #fef3c7 !important;
+}
+
+.bg-cyan-50 {
+  background-color: #cffafe !important;
+}
+
+.bg-green-50 {
+  background-color: #dcfce7 !important;
+}
+
+.bg-red-50 {
+  background-color: #fee2e2 !important;
+}
+
+.bg-yellow-50 {
+  background-color: #fef9c3 !important;
+}
+
+.hover\:bg-cyan-50:hover,
+.hover\:bg-sky-50:hover {
+  background-color: #bae6fd !important;
+}
+
+.shadow-lg,
+.shadow-xl,
+.shadow-2xl {
+  --tw-shadow-color: rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 3px solid #67e8f9;
+  outline-offset: 2px;
+}
+
+@keyframes soft-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes soft-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+body header,
+body main > *,
+body main section,
+body main article,
+body main form,
+body main table {
+  animation: soft-rise-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+body main > *:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+body main > *:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+body main article {
+  animation-name: soft-pop-in;
+  animation-duration: 460ms;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 220ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 180ms ease;
+}
+
+button:not(:disabled):hover,
+a:hover {
+  transform: translateY(-2px);
+}
+
+button:not(:disabled):active,
+a:active {
+  transform: translateY(0) scale(0.98);
+}
+
+body main article:hover,
+body main section:hover {
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-container img.leaflet-tile {
+  width: 256px !important;
+  height: 256px !important;
+  max-width: none !important;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-panel {
+    @apply border border-white/70 bg-white/85 shadow-xl shadow-slate-900/5 backdrop-blur;
+  }
+
+  .page-shell {
+    @apply mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

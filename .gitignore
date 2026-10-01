@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.next/
+.next-dev/
+.turbo/
+*.tsbuildinfo
+
+# Test outputs
+coverage/
+playwright-report/
+test-results/
+
+# Environment files
+.env
+.env.local
+.env.*
+!.env.example
+!**/.env.*.example
+
+# Local user data
+/uploads/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Turbo
+.turbo/
+
+# Capacitor native source is tracked so Android builds are reproducible.
+apps/driver/ios/
+
+# Driver profile photos are runtime uploads and must persist outside source control.
+apps/api/uploads/drivers/*
+!apps/api/uploads/drivers/.gitkeep
+
+# Local APK artifacts are not source; release APKs are copied manually when needed.
+*.apk

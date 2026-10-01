@@ -1,0 +1,29 @@
+{
+  "name": "bus-tracking-gps-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "files": [
+    "android",
+    "dist"
+  ],
+  "main": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@capacitor/cli": "^6.1.0"
+  }
+}

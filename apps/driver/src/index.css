@@ -1,0 +1,284 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-300.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-400.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-500.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-600.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-700.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-800.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/fonts/Vazirmatn-arabic-900.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+
+:root {
+  --font-vazirmatn: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  --driver-bg: #08111f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--font-vazirmatn);
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #e6edf7;
+  background:
+    radial-gradient(circle at top right, rgba(14, 165, 233, 0.18), transparent 32rem),
+    radial-gradient(circle at bottom left, rgba(8, 145, 178, 0.12), transparent 28rem),
+    var(--driver-bg);
+}
+
+button,
+input,
+select,
+textarea,
+option {
+  font-family: inherit;
+}
+
+#root {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Keep every driver screen on the same dark operations theme. */
+.bg-gray-100,
+.bg-gray-50,
+.bg-white {
+  background-color: #111f33 !important;
+}
+
+.bg-gray-900 {
+  background-color: #08111f !important;
+}
+
+.text-gray-900,
+.text-gray-800,
+.text-gray-700 {
+  color: #e6edf7 !important;
+}
+
+.text-gray-600,
+.text-gray-500,
+.text-gray-400 {
+  color: #91a4b8 !important;
+}
+
+.border-gray-300,
+.border-gray-200 {
+  border-color: rgba(148, 163, 184, 0.25) !important;
+}
+
+.bg-gray-50 {
+  background-color: #0f2035 !important;
+}
+
+.bg-red-50 {
+  background-color: rgba(127, 29, 29, 0.35) !important;
+}
+
+.text-red-700 {
+  color: #fca5a5 !important;
+}
+
+.bg-green-50 {
+  background-color: rgba(20, 83, 45, 0.35) !important;
+}
+
+input,
+select,
+textarea {
+  color: #e6edf7;
+  background-color: #0f2035 !important;
+  border-color: rgba(148, 163, 184, 0.3) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #71849a;
+}
+
+.bg-primary-100 {
+  background-color: #164e63 !important;
+}
+
+.text-primary-700 {
+  color: #a5f3fc !important;
+}
+
+.bg-gray-300 {
+  background-color: #334155 !important;
+}
+
+.text-gray-700 {
+  color: #c3d0df !important;
+}
+
+[data-seat-gender='MALE'] {
+  background-color: #2563eb !important;
+  border-color: #93c5fd !important;
+  color: #ffffff !important;
+}
+
+[data-seat-gender='FEMALE'] {
+  background-color: #db2777 !important;
+  border-color: #f9a8d4 !important;
+  color: #ffffff !important;
+}
+
+[data-seat-gender='UNKNOWN'] {
+  background-color: #475569 !important;
+  border-color: #94a3b8 !important;
+  color: #ffffff !important;
+}
+
+[data-seat-gender='EMPTY'] {
+  background-color: #1e293b !important;
+  border-color: #64748b !important;
+  color: #ffffff !important;
+}
+
+:focus-visible {
+  outline: 3px solid #67e8f9;
+  outline-offset: 2px;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes driver-soft-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes driver-soft-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+#root > div > *,
+#root main > *,
+#root main section,
+#root main article,
+#root main form {
+  animation: driver-soft-rise-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+#root main article {
+  animation-name: driver-soft-pop-in;
+  animation-duration: 460ms;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 220ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 180ms ease;
+}
+
+button:not(:disabled):hover,
+a:hover {
+  transform: translateY(-2px);
+}
+
+input + button:hover,
+input + button:active {
+  transform: translateY(-50%) !important;
+}
+
+button:not(:disabled):active,
+a:active {
+  transform: translateY(0) scale(0.98);
+}
+
+#root main article:hover,
+#root main section:hover {
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

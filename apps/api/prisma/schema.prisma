@@ -1,0 +1,376 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DriverStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum ProvisioningStatus {
+  PENDING
+  PROVISIONED
+  REVOKED
+}
+
+enum SessionStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum BusStatus {
+  ACTIVE
+  MAINTENANCE
+  RETIRED
+}
+
+enum PassengerCountStatus {
+  PENDING
+  CONFIRMED
+  DISCREPANCY
+}
+
+enum PassengerGender {
+  UNKNOWN
+  MALE
+  FEMALE
+}
+
+enum TripStatus {
+  DRAFT
+  ASSIGNED
+  PENDING_DRIVER_CONFIRMATION
+  READY
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum TrackingLinkStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum AssignmentOrder {
+  FIRST
+  SECOND
+}
+
+enum HandoverSource {
+  DRIVER
+  SUPPORT
+  SYSTEM
+}
+
+enum GPSStatus {
+  ENABLED
+  DISABLED
+  UNKNOWN
+}
+
+enum PermissionStatus {
+  GRANTED
+  DENIED
+  UNKNOWN
+}
+
+enum ConnectivityStatus {
+  ONLINE
+  OFFLINE
+  UNKNOWN
+}
+
+enum TrackingStatus {
+  TRACKING
+  PAUSED
+  STOPPED
+  ERROR
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  SUPPORT
+}
+
+model AdminUser {
+  id           String    @id @default(uuid())
+  username     String    @unique
+  passwordHash String
+  passwordPreview String?
+  firstName    String
+  lastName     String
+  role         AdminRole @default(ADMIN)
+  isActive     Boolean   @default(true)
+  refreshToken String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([role])
+  @@index([isActive])
+}
+
+enum LocationSource {
+  GPS
+  NETWORK
+  PASSIVE
+  MANUAL
+}
+
+model Driver {
+  id              String   @id @default(uuid())
+  firstName       String
+  lastName        String
+  phone           String   @unique
+  passwordHash    String
+  passwordPreview String?
+  profilePhotoUrl String?
+  refreshToken    String?
+  status          DriverStatus @default(ACTIVE)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  devices       DriverDevice[]
+  assignments   TripDriverAssignment[]
+  handovers     TripDriverHandover[] @relation("PreviousDriverHandovers")
+  nextHandovers TripDriverHandover[] @relation("NextDriverHandovers")
+  activeTrips   Trip[]   @relation("ActiveDriverTrips")
+  confirmations DriverConfirmation[]
+
+  @@index([phone])
+  @@index([status])
+}
+
+model DriverDevice {
+  id                   String            @id @default(uuid())
+  driverId             String
+  deviceIdentifier     String
+  provisioningStatus   ProvisioningStatus @default(PENDING)
+  sessionStatus        SessionStatus     @default(INACTIVE)
+  revokedAt            DateTime?
+  lastHeartbeatAt      DateTime?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  driver               Driver            @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  healthRecords        DeviceHealth[]
+
+  @@unique([driverId, deviceIdentifier])
+  @@index([driverId])
+  @@index([provisioningStatus])
+  @@index([sessionStatus])
+}
+
+model Bus {
+  id            String   @id @default(uuid())
+  displayName   String
+  model         String?
+  manufactureYear Int?
+  color         String?
+  plateNumber   String   @unique
+  fleetNumber   String?  @unique
+  busCode       String?  @unique
+  seatCount     Int      @default(25)
+  status        BusStatus @default(ACTIVE)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  trips         Trip[]
+
+  @@index([plateNumber])
+  @@index([status])
+}
+
+model Route {
+  id                   String   @id @default(uuid())
+  origin               String
+  destination          String
+  geometry             Json?
+  totalDistanceKm      Float?
+  estimatedDurationMinutes Int?
+  routingMetadata      Json?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  trips                Trip[]
+
+  @@index([origin, destination])
+}
+
+model Passenger {
+  id        String   @id @default(uuid())
+  passengerCode String @unique @default(cuid())
+  firstName String
+  lastName  String
+  phone     String
+  gender    PassengerGender @default(UNKNOWN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tripPassengers TripPassenger[]
+
+  @@index([phone])
+}
+
+model Trip {
+  id                       String                @id @default(uuid())
+  activeDriverId           String?
+  busId                    String
+  routeId                  String
+  expectedPassengerCount   Int     @default(0)
+  departureDate            String?
+  departureTime            String?
+  confirmedPassengerCount  Int     @default(0)
+  passengerCountStatus     PassengerCountStatus  @default(PENDING)
+  status                   TripStatus            @default(DRAFT)
+  startedAt                DateTime?
+  completedAt              DateTime?
+  createdAt                DateTime              @default(now())
+  updatedAt                DateTime              @updatedAt
+
+  activeDriver             Driver?               @relation("ActiveDriverTrips", fields: [activeDriverId], references: [id], onDelete: SetNull)
+  bus                      Bus                   @relation(fields: [busId], references: [id], onDelete: Restrict)
+  route                    Route                 @relation(fields: [routeId], references: [id], onDelete: Restrict)
+  driverAssignments        TripDriverAssignment[]
+  handovers                TripDriverHandover[]
+  trackingLink             TrackingLink?
+  locationPoints           LocationPoint[]
+  deviceHealthRecords      DeviceHealth[]
+  passengers               TripPassenger[]
+  confirmations            DriverConfirmation[]
+
+  @@index([activeDriverId])
+  @@index([busId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model TripDriverAssignment {
+  id               String          @id @default(uuid())
+  tripId           String
+  driverId         String
+  assignmentOrder  AssignmentOrder
+  createdAt        DateTime        @default(now())
+
+  trip             Trip            @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  driver           Driver          @relation(fields: [driverId], references: [id], onDelete: Restrict)
+
+  @@unique([tripId, assignmentOrder])
+  @@unique([tripId, driverId])
+  @@index([driverId])
+}
+
+model TripDriverHandover {
+  id                String        @id @default(uuid())
+  tripId            String
+  previousDriverId  String
+  nextDriverId      String
+  changedAt         DateTime      @default(now())
+  changedBy         HandoverSource
+  sourceMetadata    Json?
+  createdAt         DateTime      @default(now())
+
+  trip              Trip          @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  previousDriver    Driver        @relation("PreviousDriverHandovers", fields: [previousDriverId], references: [id], onDelete: Restrict)
+  nextDriver        Driver        @relation("NextDriverHandovers", fields: [nextDriverId], references: [id], onDelete: Restrict)
+
+  @@index([tripId])
+  @@index([changedAt])
+}
+
+model TrackingLink {
+  id        String              @id @default(uuid())
+  tripId    String              @unique
+  secureToken String            @unique
+  status    TrackingLinkStatus  @default(ACTIVE)
+  createdAt DateTime            @default(now())
+  expiresAt DateTime
+
+  trip      Trip                @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([secureToken])
+  @@index([status])
+  @@index([expiresAt])
+}
+
+model LocationPoint {
+  id             String        @id @default(uuid())
+  tripId         String
+  latitude       Float
+  longitude      Float
+  speedKmh       Float?
+  accuracyMeters Float?
+  capturedAt     DateTime
+  receivedAt     DateTime      @default(now())
+  source         LocationSource @default(GPS)
+  sourceMetadata Json?
+  createdAt      DateTime      @default(now())
+  idempotencyKey String?       @unique
+
+  trip           Trip          @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([tripId, capturedAt])
+  @@index([tripId, receivedAt])
+  @@index([idempotencyKey])
+}
+
+model DeviceHealth {
+  id                String            @id @default(uuid())
+  driverDeviceId    String
+  tripId            String?
+  gpsStatus         GPSStatus
+  permissionStatus  PermissionStatus
+  connectivityStatus ConnectivityStatus
+  trackingStatus    TrackingStatus
+  batteryLevel      Float?
+  batteryState      String?
+  appVersion        String?
+  osVersion         String?
+  deviceModel       String?
+  observedAt        DateTime          @default(now())
+  createdAt         DateTime          @default(now())
+
+  driverDevice      DriverDevice      @relation(fields: [driverDeviceId], references: [id], onDelete: Cascade)
+  trip              Trip?             @relation(fields: [tripId], references: [id], onDelete: SetNull)
+
+  @@index([driverDeviceId])
+  @@index([tripId])
+  @@index([observedAt])
+}
+
+model TripPassenger {
+  id           String     @id @default(uuid())
+  tripId       String
+  passengerId  String
+  seatNumber   Int?
+  createdAt    DateTime   @default(now())
+
+  trip         Trip       @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  passenger    Passenger  @relation(fields: [passengerId], references: [id], onDelete: Cascade)
+
+  @@unique([tripId, passengerId])
+  @@unique([tripId, seatNumber])
+  @@index([passengerId])
+}
+
+model DriverConfirmation {
+  id                       String   @id @default(uuid())
+  tripId                   String
+  driverId                 String
+  confirmedPassengerCount  Int
+  createdAt                DateTime @default(now())
+
+  trip                     Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  driver                   Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  @@unique([tripId, driverId])
+  @@index([tripId])
+  @@index([driverId])
+}

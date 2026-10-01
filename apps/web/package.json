@@ -1,0 +1,34 @@
+{
+  "name": "@bus-tracking/web",
+  "version": "1.3.78",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0 -p 3004",
+    "build": "next build",
+    "start": "next start -H 0.0.0.0 -p 3004",
+    "lint": "eslint src --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "leaflet": "^1.9.4",
+    "socket.io-client": "^4.7.5",
+    "@bus-tracking/shared-types": "workspace:*",
+    "@bus-tracking/api-contracts": "workspace:*",
+    "@bus-tracking/shared-utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/leaflet": "^1.9.12",
+    "typescript": "^5.5.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^14.2.0",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
+  }
+}
